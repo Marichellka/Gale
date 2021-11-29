@@ -8,89 +8,61 @@ namespace MinimaxAlgorithm
 {
     class Minimax
     {
-        private Node currentNode;
-        private int maxDepth;
-
-        public Minimax(Board initialState, int depth)
+        
+        public (int, Board) Algorithm(Board currentState, int depth, int alpha, int beta, bool maxPlayer)
         {
-            currentNode = new Node(initialState);
-            maxDepth = depth;
-        }
-
-        public Board Start(int i, int j)
-        {
-            foreach (var child in currentNode.GetChilds(Kind.Purple))
+            if(depth==0 || currentState.IsWin()!= Kind.None)
             {
-                if(child.State.Grid[i, j].Type == Kind.Purple)
-                {
-                    currentNode = child;
-                    break;
-                }
-            }
-            int value = Algorithm(currentNode, maxDepth, int.MinValue, int.MaxValue, true);
-            foreach (var child in currentNode.GetChilds(Kind.Blue))
-            {
-                if (child.MiniMaxValue == value)
-                {
-                    currentNode = child;
-                    break;
-                }
-            }
-            if (!currentNode.IsWinCheked)
-            {
-                currentNode.State.IsWin();
-                currentNode.IsWinCheked = true;
-            }
-            return currentNode.State;
-        }
-
-        public int Algorithm(Node currentState, int depth, int alpha, int beta, bool maxPlayer)
-        {
-            if (currentState.Value == int.MaxValue)
-            {
-                currentState.Value = currentState.State.Evaluate();
-            }
-            if (!currentState.IsWinCheked)
-            {
-                currentState.State.IsWin();
-                currentState.IsWinCheked = true;
-            }
-            currentState.MiniMaxValue = currentState.Value;
-            if(depth==0 || currentState.State.Win!= Kind.None)
-            {
-                return currentState.Value;
+                return (currentState.Evaluate(), null);
             }
 
+            if (currentState.IsWin() == Kind.Blue)
+                return (int.MaxValue, null);
+            else if(currentState.IsWin()==Kind.Purple)
+                return (int.MinValue, null);
+            
+            List<Board> childs;
+            Board bestBoard;
             if (maxPlayer)
             {
-                int maxVal = int.MinValue;
-                foreach (var child in currentState.GetChilds(Kind.Blue))
+                int maxEval = int.MinValue;
+                childs = currentState.DeployState(Kind.Blue);
+                bestBoard = childs[0];
+                foreach (var child in childs)
                 {
-                    int value = Algorithm(child, depth - 1, alpha, beta, false);
-                    maxVal = Math.Max(value, maxVal);
+                    (int value, Board board) = Algorithm(child, depth - 1, alpha, beta, false);
+                        if (value > maxEval)
+                    {
+                        maxEval = value;
+                        bestBoard = child;
+                    }
                     alpha = Math.Max(alpha, value);
                     if (beta <= alpha)
                     {
-                        break;
+                        return (maxEval, bestBoard);
                     }
                 }
-                currentState.MiniMaxValue = maxVal;
-                return maxVal;
+                return (maxEval, bestBoard);
             }
 
-            int minVal = int.MaxValue;
-            foreach (var child in currentState.GetChilds(Kind.Purple))
+            int minEval = int.MaxValue;
+            childs = currentState.DeployState(Kind.Purple);
+            bestBoard = childs[0];
+            foreach (var child in childs)
             {
-                int value = Algorithm(child, depth - 1, alpha, beta, true);
-                minVal = Math.Min(value, minVal);
+                (int value, Board board) = Algorithm(child, depth - 1, alpha, beta, true);
+                if (value < minEval)
+                {
+                    minEval = value;
+                    bestBoard = child;
+                }
                 beta = Math.Min(beta, value);
                 if (beta <= alpha)
                 {
-                    break;
+                    return (minEval, bestBoard);
                 }
             }
-            currentState.MiniMaxValue = minVal;
-            return minVal;
+            return (minEval, bestBoard);
         }
     }
 }

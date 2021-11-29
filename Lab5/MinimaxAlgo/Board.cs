@@ -41,23 +41,25 @@ namespace MinimaxAlgorithm
         public int Evaluate()
         {
             int minvalueBlue = int.MaxValue;
-            int minvalueRed = int.MaxValue;
+            int minvaluePurple = int.MaxValue;
             for (int k = 0; k < length; k++)
             {
                 if (Grid[0, k].Type != Kind.Purple)
                 {
                     int value = Dijkstra(Grid[0, k], Kind.Blue);
-                    if (value < minvalueBlue)
-                        minvalueBlue = value;
+                    minvalueBlue = Math.Min(minvalueBlue, value);
                 }
                 if (Grid[k, 0].Type != Kind.Blue)
                 {
                     int value = Dijkstra(Grid[k, 0], Kind.Purple);
-                    if (value < minvalueRed)
-                        minvalueRed = value;
+                    minvaluePurple = Math.Min(minvaluePurple, value);
                 }
             }
-            return minvalueRed - minvalueBlue;
+            if (minvaluePurple <= 1)
+            {
+                return int.MinValue;
+            }
+            return minvaluePurple - minvalueBlue;
         }
 
         public int Dijkstra(Cell start, Kind type)
@@ -84,7 +86,7 @@ namespace MinimaxAlgorithm
                         if (!openNodes.Contains(neighbour))
                         {
                             way[neighbour.I, neighbour.J] = currentCell;
-                            int neighbourCost = cost + 1;
+                            int neighbourCost = cost+1;
                             openNodes.Add(neighbour, neighbourCost);
                         }
                     }

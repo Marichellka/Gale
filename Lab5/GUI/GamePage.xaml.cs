@@ -20,12 +20,14 @@ namespace Lab5.Pages
     public partial class GamePage : Page
     {
         private Game game;
-        private int minimaxDepth = 4;
+        private int minimaxDepth = 3;
         public GamePage()
         {
             InitializeComponent();
             game = new Game(minimaxDepth);
             DrawGrid();
+            game.OnUpdateBoard += UpdateBoard;
+            game.OnGameEnded += GameEnded;
         }
 
         private void DrawGrid()
@@ -79,19 +81,8 @@ namespace Lab5.Pages
             }
         }
 
-        private void PlayerMove_Click(object sender, RoutedEventArgs e)
+        private void UpdateBoard()
         {
-            GameButton button = (GameButton)sender;
-            Kind win = game.NewMove(button.I, button.J);
-            if(win != Kind.None)
-            {
-                MessageBox.Show($"{win} is won!");
-                GameArea.Children.Clear();
-                game = new Game(minimaxDepth);
-                DrawGrid();
-                return;
-            }
-
             var bc = new BrushConverter();
             int childrenCount = game.Size + 3;
             for (int i = 0; i < game.Size; i++)
@@ -99,9 +90,9 @@ namespace Lab5.Pages
                 for (int j = 0; j < game.Size; j++)
                 {
                     UIElement cell = GameArea.Children[childrenCount];
-                    if(cell.GetType()== typeof(GameButton))
+                    if (cell.GetType() == typeof(GameButton))
                     {
-                        if(game.Board.Grid[i, j].Type != Kind.None)
+                        if (game.Board.Grid[i, j].Type != Kind.None)
                         {
                             Border newElement = new Border();
                             newElement.Background = (Brush)bc.ConvertFrom(game.Board.Grid[i, j].ToString());
@@ -111,8 +102,24 @@ namespace Lab5.Pages
                     }
                     childrenCount++;
                 }
-                childrenCount+=2;
+                childrenCount += 2;
             }
+        }
+
+        private void PlayerMove_Click(object sender, RoutedEventArgs e)
+        {
+            GameButton button = (GameButton)sender;
+            game.MakeTurn(button.I, button.J);
+        }
+
+        private void GameEnded(Kind win)
+        {
+            MessageBox.Show($"{win} is won!");
+            GameArea.Children.Clear();
+            game = new Game(minimaxDepth);
+            DrawGrid();
+            game.OnUpdateBoard += UpdateBoard;
+            game.OnGameEnded += GameEnded;
         }
     }
 }

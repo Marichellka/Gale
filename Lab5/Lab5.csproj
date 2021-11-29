@@ -93,7 +93,6 @@
     <Compile Include="MinimaxAlgo\Cell.cs" />
     <Compile Include="MinimaxAlgo\Game.cs" />
     <Compile Include="MinimaxAlgo\Minimax.cs" />
-    <Compile Include="MinimaxAlgo\Node.cs" />
     <Compile Include="MinimaxAlgo\PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
