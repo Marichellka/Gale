@@ -1,0 +1,28 @@
+﻿<Page x:Class="Lab5.Pages.GamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:MyNamespace="clr-namespace:Lab5.GUI"
+      xmlns:local="clr-namespace:Lab5.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="GamePage">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush>
+                <GradientStop Color="#6997D3" Offset="0"></GradientStop>
+                <GradientStop Color="#faebd7" Offset="0.5"></GradientStop>
+                <GradientStop Color="#a988cf" Offset="1"></GradientStop>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="AntiqueWhite" BorderThickness="10">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Color="DimGray" ShadowDepth="2" />
+            </Border.Effect>
+            <UniformGrid Name="GameArea" Background="#faebd7" VerticalAlignment="Center" 
+                     HorizontalAlignment="Center" MinHeight="300" MinWidth="300">
+            </UniformGrid>
+        </Border>
+    </Grid>
+</Page>
