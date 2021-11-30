@@ -20,9 +20,10 @@ namespace Lab5.Pages
     public partial class GamePage : Page
     {
         private Game game;
-        private int minimaxDepth = 3;
-        public GamePage()
+        private int minimaxDepth;
+        public GamePage(int depth)
         {
+            minimaxDepth = depth;
             InitializeComponent();
             game = new Game(minimaxDepth);
             DrawGrid();
@@ -120,6 +121,11 @@ namespace Lab5.Pages
             DrawGrid();
             game.OnUpdateBoard += UpdateBoard;
             game.OnGameEnded += GameEnded;
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ComplexityPage());
         }
     }
 }

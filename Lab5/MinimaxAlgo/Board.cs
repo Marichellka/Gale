@@ -8,7 +8,6 @@ namespace MinimaxAlgorithm
     {
         public Cell[,] Grid { get; set; }
         private int length;
-        public Kind Win { get; private set; }
 
         public Board() { }
 
@@ -40,26 +39,16 @@ namespace MinimaxAlgorithm
 
         public int Evaluate()
         {
-            int minvalueBlue = int.MaxValue;
             int minvaluePurple = int.MaxValue;
             for (int k = 0; k < length; k++)
             {
-                if (Grid[0, k].Type != Kind.Purple)
-                {
-                    int value = Dijkstra(Grid[0, k], Kind.Blue);
-                    minvalueBlue = Math.Min(minvalueBlue, value);
-                }
                 if (Grid[k, 0].Type != Kind.Blue)
                 {
                     int value = Dijkstra(Grid[k, 0], Kind.Purple);
                     minvaluePurple = Math.Min(minvaluePurple, value);
                 }
             }
-            if (minvaluePurple <= 1)
-            {
-                return int.MinValue;
-            }
-            return minvaluePurple - minvalueBlue;
+            return minvaluePurple;
         }
 
         public int Dijkstra(Cell start, Kind type)
@@ -115,13 +104,13 @@ namespace MinimaxAlgorithm
             {
                 neighbours.Add(Grid[cell.I, cell.J + 1]);
             }
-            if (cell.I - 1 >= 0)
-            {
-                neighbours.Add(Grid[cell.I - 1, cell.J]);
-            }
             if (cell.J - 1 >= 0)
             {
                 neighbours.Add(Grid[cell.I, cell.J - 1]);
+            }
+            if (cell.I - 1 >= 0)
+            {
+                neighbours.Add(Grid[cell.I - 1, cell.J]);
             }
             return neighbours;
         }
@@ -136,8 +125,7 @@ namespace MinimaxAlgorithm
                     if (Move(0, k))
                     {
                         this.Grid = tmpBoard.Grid;
-                        Win = Kind.Blue;
-                        return Kind.Purple;
+                        return Kind.Blue;
                     }
                 }
                 if (Grid[k, 0].Type == Kind.Purple)
@@ -145,13 +133,11 @@ namespace MinimaxAlgorithm
                     if (Move(k, 0))
                     {
                         this.Grid = tmpBoard.Grid;
-                        Win = Kind.Purple;
                         return Kind.Purple;
                     }
                 }
             }
             this.Grid = tmpBoard.Grid;
-            Win = Kind.None;
             return Kind.None;
         }
 

@@ -23,3 +23,5 @@ C:\Users\user\Desktop\Навчання\2 курс\Алгоритми\lab5\lab5\L
 C:\Users\user\Desktop\Навчання\2 курс\Алгоритми\lab5\lab5\Lab5\obj\Release\Lab5.csproj.CopyComplete
 C:\Users\user\Desktop\Навчання\2 курс\Алгоритми\lab5\lab5\Lab5\obj\Release\Lab5.exe
 C:\Users\user\Desktop\Навчання\2 курс\Алгоритми\lab5\lab5\Lab5\obj\Release\Lab5.pdb
+C:\Users\user\Desktop\Навчання\2 курс\Алгоритми\lab5\lab5\Lab5\obj\Release\GUI\ComplexityPage.g.cs
+C:\Users\user\Desktop\Навчання\2 курс\Алгоритми\lab5\lab5\Lab5\obj\Release\GUI\ComplexityPage.baml

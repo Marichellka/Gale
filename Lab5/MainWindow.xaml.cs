@@ -1,4 +1,5 @@
-﻿using Lab5.Pages;
+﻿using Lab5.GUI;
+using Lab5.Pages;
 using System.Windows;
 
 namespace Lab5
@@ -11,7 +12,7 @@ namespace Lab5
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Content = new GamePage();
+            MainFrame.Content = new ComplexityPage();
         }
     }
 }
